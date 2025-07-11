@@ -110,7 +110,8 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                     LinkLoadResult loadResult = RevitLinkType.Create(doc, modelPath, options);
                     // DEBUG
                     //TaskDialog.Show("loadResult:",$"{loadResult}");
-                    //message += $"LinkLoadResult: {loadResult?.LoadResult.ToString() ?? "null"}\n";
+                    message += $"LinkLoadResult: {loadResult?.LoadResult.ToString() ?? "null"}\n";
+
                     if (loadResult == null)
                     {
                         throw new Exception("A criaçao do link retornou resultado nulo");
@@ -125,7 +126,8 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                     RevitLinkType linkType = doc.GetElement(loadResult.ElementId) as RevitLinkType;
                     //DEBUG
                     //TaskDialog.Show("linkType:",$"{linkType}");
-                    //message += $"LinkType: {(linkType != null ? "Created" : "Null")}\n";
+                    message += $"LinkType: {(linkType != null ? "Created" : "Null")}\n";
+
                     if (linkType == null)
                     {
                         throw new Exception("Falha ao recuperar o tipo do link");
@@ -134,6 +136,7 @@ namespace FuroAutomaticoRevit.UI.ViewModels
 
                     RevitLinkInstance linkInstance = RevitLinkInstance.Create(doc, linkType.Id);
                     //DEBUG
+                    message += $"LinkInstance: {(linkInstance != null ? "Created" : "Null")}\n";
                     if (linkInstance == null)
                     {
                         throw new Exception("Falha ao criar instancia do link");
@@ -148,6 +151,8 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                                       // (Teoricamente o metodo TestAndLinkFile vai testar os vinculos dando rollback após o teste.
                                       // Criando os vinculos novamente ao pressionar o botao executar.
 
+                    
+                    
                     TaskDialog.Show("Sucesso",
                         $"Vínculo criado com sucesso: {file.FileName}");
                 }
@@ -155,9 +160,9 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                 catch (Exception ex)
                 {
                     t.RollBack();
-                    message += $"ERRO: {ex.Message}\n";
+                    message += $"ERROR: {ex.Message}\n";
                     TaskDialog.Show("Falha ao criar o link",
-                        $"Não foi possivel linkar {file.FileName}:\n{ex.Message}\n\nDebug:\n{message}");
+                        $"Não foi possivel criar link para {file.FileName}:\n{ex.Message}\n\nDebug:\n{message}");
                     return;
                 }
             }
