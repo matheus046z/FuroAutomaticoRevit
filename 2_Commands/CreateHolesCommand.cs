@@ -17,10 +17,9 @@ namespace FuroAutomaticoRevit.Commands
         {
             try
             {
-                // Get application and document references
+                // Referencias de aplicação e documento
                 UIApplication uiApp = commandData.Application;
 
-                // Show the WPF interface
                 var mainView = new MainView(uiApp);
                 mainView.ShowDialog();
 

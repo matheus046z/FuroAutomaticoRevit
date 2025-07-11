@@ -13,26 +13,9 @@ namespace FuroAutomaticoRevit.UI.ViewModels
     {
         private readonly UIApplication _uiApp;
 
-        //private string _selectedMepModel;
-        //private string _selectedStructuralModel;
-
-
         public ObservableCollection<RvtFile> MepModels { get; } = new ObservableCollection<RvtFile>();
         public ObservableCollection<RvtFile> StructuralModels { get; } = new ObservableCollection<RvtFile>();
 
-        //public string SelectedMepModel
-        //{
-        //    get => _selectedMepModel;
-        //    set => SetField(ref _selectedMepModel, value);
-        //}
-
-        //public string SelectedStructuralModel
-        //{
-        //    get => _selectedStructuralModel;
-        //    set => SetField(ref _selectedStructuralModel, value);
-        //}
-
-        // In MainViewModel class
         private RvtFile _selectedMepModel;
         public RvtFile SelectedMepModel
         {
@@ -47,6 +30,7 @@ namespace FuroAutomaticoRevit.UI.ViewModels
         }
 
         private RvtFile _selectedStructuralModel;
+
         public RvtFile SelectedStructuralModel
         {
             get => _selectedStructuralModel;
@@ -88,11 +72,6 @@ namespace FuroAutomaticoRevit.UI.ViewModels
 
             string directory = Path.GetDirectoryName(currentDocPath);
 
-            //string pasta = Path.GetDirectoryName(currentDocPath);
-
-            //string[] arquivos = Directory.GetFiles(pasta, "*.rvt");
-
-
             var rvtFiles = Directory.GetFiles(directory, "*.rvt")
                 .Where(f => !f.Equals(currentDocPath, StringComparison.OrdinalIgnoreCase))
                 .Select(f => new RvtFile { FilePath = f });
@@ -101,33 +80,12 @@ namespace FuroAutomaticoRevit.UI.ViewModels
             MepModels.Clear();
             StructuralModels.Clear();
 
-            
-
             foreach (var file in rvtFiles)
             {
                 MepModels.Add(file);
                 StructuralModels.Add(file);
             }
         
-            //// Get all linked models in the project
-            //var collector = new FilteredElementCollector(_uiApp.ActiveUIDocument.Document);
-            //var links = collector.OfClass(typeof(RevitLinkInstance)).Cast<RevitLinkInstance>();
-
-            //// Filter MEP models
-            //foreach (var link in links.Where(l => l.Name.Contains("MEP")))
-            //{
-            //    MepModels.Add(link.Name);
-            //}
-
-            //// Filter structural models
-            //foreach (var link in links.Where(l => l.Name.Contains("Structural")))
-            //{
-            //    StructuralModels.Add(link.Name);
-            //}
-
-            //// Set default selections
-            //if (MepModels.Any()) SelectedMepModel = MepModels.First();
-            //if (StructuralModels.Any()) SelectedStructuralModel = StructuralModels.First();
         }
 
         private void TestAndLinkFile(RvtFile file)
@@ -145,89 +103,72 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                 {
                     t.Start();
 
-                    ModelPath modelPath = ModelPathUtils.ConvertUserVisiblePathToModelPath(file.FilePath);
-
+                    ModelPath modelPath = ModelPathUtils.ConvertUserVisiblePathToModelPath(file.FilePath);                  
                     RevitLinkOptions options = new RevitLinkOptions(false);
 
+ 
                     LinkLoadResult loadResult = RevitLinkType.Create(doc, modelPath, options);
-
                     // DEBUG
-                    
+                    //TaskDialog.Show("loadResult:",$"{loadResult}");
                     //message += $"LinkLoadResult: {loadResult?.LoadResult.ToString() ?? "null"}\n";
-
                     if (loadResult == null)
                     {
                         throw new Exception("A criaçao do link retornou resultado nulo");
                     }
- 
-
+                    
                     if (loadResult.LoadResult != LinkLoadResultType.LinkLoaded)
                     {
-                        throw new Exception($"Link loading failed: {loadResult.LoadResult}");
+                        throw new Exception($"O carregamento do link falhou: {loadResult.LoadResult}");
                     }
 
 
                     RevitLinkType linkType = doc.GetElement(loadResult.ElementId) as RevitLinkType;
-
+                    //DEBUG
+                    //TaskDialog.Show("linkType:",$"{linkType}");
                     //message += $"LinkType: {(linkType != null ? "Created" : "Null")}\n";
-
                     if (linkType == null)
                     {
                         throw new Exception("Falha ao recuperar o tipo do link");
                     }
 
 
-
-                    // RevitLinkInstance NAO CRIA LINKS ANINHADOS NESTED
                     RevitLinkInstance linkInstance = RevitLinkInstance.Create(doc, linkType.Id);
-                    //message += $"LinkInstance: {(linkInstance != null ? "Created" : "Null")}\n";
-
-
-
-
-
-
+                    //DEBUG
                     if (linkInstance == null)
                     {
-                        throw new Exception("Failed to create link instance");
+                        throw new Exception("Falha ao criar instancia do link");
                     }
 
 
-                    t.RollBack();
 
-                    //message += "Transaction rolled back successfully\n";
-                    //success = true;
+                    t.Commit(); // Aplica alteraçoes no projeto para testar vinculos
 
 
-                    //RevitLinkType linkType = RevitLinkType.Create(doc, file.FilePath);
-                    //RevitLinkInstance.Create(doc, linkType.Id);
+                    /*t.RollBack();*/ // Limpar após o teste de links. Rollback remove o link criado para testar o vínculo.
+                                      // (Teoricamente o metodo TestAndLinkFile vai testar os vinculos dando rollback após o teste.
+                                      // Criando os vinculos novamente ao pressionar o botao executar.
 
-
-                    /*t.RollBack();*/ // Cleanup after test
-
-                    //TaskDialog.Show("Sucesso",
-                    //    $"Vínculo criado com sucesso: {file.FileName}");
+                    TaskDialog.Show("Sucesso",
+                        $"Vínculo criado com sucesso: {file.FileName}");
                 }
 
                 catch (Exception ex)
                 {
                     t.RollBack();
-                    message += $"ERROR: {ex.Message}\n";
-                    TaskDialog.Show("Linking Failed",
-                        $"Couldn't link {file.FileName}:\n{ex.Message}\n\nDebug Info:\n{message}");
+                    message += $"ERRO: {ex.Message}\n";
+                    TaskDialog.Show("Falha ao criar o link",
+                        $"Não foi possivel linkar {file.FileName}:\n{ex.Message}\n\nDebug:\n{message}");
                     return;
                 }
             }
         }
 
-
-
         private void Execute(object parameter)
         {
-            // Main execution logic will go here
-            // This will call services from 4_Core and 5_Revit
+            // Logica principal
+            // Serviço de 4_Core e 5_Revit
 
-            // Close the window after execution
+            // Fechar janela após execução
             (parameter as System.Windows.Window)?.Close();
         }
 
