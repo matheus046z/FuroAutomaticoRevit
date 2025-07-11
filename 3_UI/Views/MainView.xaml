@@ -1,0 +1,49 @@
+﻿<Window x:Class="FuroAutomaticoRevit.UI.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FuroAutomaticoRevit.UI.Views"
+        mc:Ignorable="d"
+        Title="Gerador automatico de furos em laje" 
+        Height="260" 
+        Width="480"
+        WindowStartupLocation="CenterScreen" Topmost="True">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Seleção de modelo MEP -->
+        <Label Grid.Row="0" Content="Selecione o modelo MEP:" Margin="0,0,0,5"/>
+        <ComboBox Grid.Row="1" 
+                  ItemsSource="{Binding MepModels}"
+                  DisplayMemberPath="FileName"
+                  SelectedItem="{Binding SelectedMepModel}"
+                  Margin="0,0,0,10"/>
+
+        <!-- Seleção de modelo estrutural -->
+        <Label Grid.Row="2" Content="Selecione o modelo estrutural:" Margin="0,0,0,5"/>
+        <ComboBox Grid.Row="3" 
+                  ItemsSource="{Binding StructuralModels}"
+                  DisplayMemberPath="FileName"
+                  SelectedItem="{Binding SelectedStructuralModel}" Height="25" VerticalAlignment="Top"/>
+
+
+        <!-- Botões -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Executar" 
+                    Command="{Binding ExecuteCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Width="80" Margin="0,0,10,0"/>
+            <Button Content="Cancelar" 
+                    Command="{Binding CancelCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    Width="80"/>
+        </StackPanel>
+    </Grid>
+</Window>

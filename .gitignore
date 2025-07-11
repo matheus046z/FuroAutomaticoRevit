@@ -1,0 +1,45 @@
+# Build e binários
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+
+# VS
+.vscode/
+.vs/
+*.user
+*.suo
+*.userprefs
+
+# Arquivos temporários
+*.tmp
+*.bak
+*.swp
+*.ncb
+*.dbmdl
+
+# Backup do VS ou crash dumps
+*.orig
+*.sdf
+
+# Diretórios de publicação
+publish/
+RevitFuroPlugin/Addins/
+
+# Revit
+*.addin
+RevitAPI.dll
+RevitAPIUI.dll
+
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# build do MSBuild
+_Build/
