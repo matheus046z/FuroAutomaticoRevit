@@ -27,6 +27,30 @@ Este plugin para Revit automatiza a criação de furos em lajes nos pontos de in
 └── 6_Domain/          # Objetos de transferência de dados (DTOs)
 ```
 
+---
+
+## Tarefas de Desenvolvimento e Requisitos
+
+### Detectar interseções entre:
+
+Tubulações do arquivo vinculado "Arquivo do Projeto de Tubos"
+
+Lajes do arquivo vinculado "Arquivo do Projeto Estrutural"
+
+### Quando uma interseção for identificada:
+
+Inserir automaticamente uma instância da família "FURO-QUADRADO-LAJE"
+
+A família deve já existir no arquivo de projeto de furos
+
+A profundidade do furo deve exceder a espessura da laje em 5 cm para cima e para baixo
+
+### Aplicar a lógica apenas aos elementos visíveis na vista chamada "Vista Teste":
+
+Ignorar todos os elementos e interseções fora dessa vista específica
+
+---
+
 ## Roteiro de Desenvolvimento
 
 ### Tarefas Concluídas 
