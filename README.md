@@ -3,7 +3,7 @@
 Este plugin para Revit automatiza a criação de furos em lajes nos pontos de interseção com tubulações, vinculando modelos MEP e estruturais, detectando colisões e inserindo famílias de abertura predefinidas.
 
 ## Como usar
-1. Salve seu modelo hospedeiro na mesma pasta dos arquivos RVT (tubos e estrutural)
+1. Salve seu modelo de projeto de furação na mesma pasta dos arquivos RVT (tubos e estrutural)
 2. Clique em **"Executar Plugin"** na aba **"Furos Automáticos"** do ribbon do Revit
 3. Selecione os modelos:
    - Modelo MEP (tubulações)
