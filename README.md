@@ -46,3 +46,4 @@ Este plugin para Revit automatiza a criação de furos em lajes nos pontos de in
 - [ ] Filtro de elementos por vista ("Vista Teste")
 - [ ] Criação do pacote de instalação
 - [ ] Documentação para o usuário
+- [ ] Adicionar compatibilidade com outras versões do Revit
