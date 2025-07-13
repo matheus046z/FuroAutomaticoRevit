@@ -53,9 +53,12 @@
   <ItemGroup>
     <Compile Include="1_App\PluginStartup.cs" />
     <Compile Include="2_Commands\CreateHolesCommand.cs" />
+    <Compile Include="3_UI\Utils\Win32Helper.cs" />
     <Compile Include="3_UI\ViewModels\MainViewModel.cs" />
     <Compile Include="3_UI\ViewModels\RelayCommand.cs" />
-    <Compile Include="3_UI\ViewModels\RvtFile.cs" />
+    <Compile Include="5_Revit\LinkVisibilityService.cs" />
+    <Compile Include="6_Domain\LinkedModel.cs" />
+    <Compile Include="6_Domain\RvtFile.cs" />
     <Compile Include="3_UI\ViewModels\ViewModelBase.cs" />
     <Compile Include="3_UI\Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>

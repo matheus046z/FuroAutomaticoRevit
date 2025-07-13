@@ -18,10 +18,6 @@ namespace FuroAutomaticoRevit.UI.ViewModels
         private readonly LinkVisibilityService _visibilityService;
         private readonly List<LinkedModel> _createdLinks = new List<LinkedModel>();
 
-        //private readonly Dictionary<string, RevitLinkInstance> _createdLinks = new Dictionary<string, RevitLinkInstance>();
-
-
-
         public ObservableCollection<RvtFile> MepModels { get; } = new ObservableCollection<RvtFile>();
         public ObservableCollection<RvtFile> StructuralModels { get; } = new ObservableCollection<RvtFile>();
 
@@ -136,8 +132,6 @@ namespace FuroAutomaticoRevit.UI.ViewModels
             }
         }
 
-
-
         private void Execute(object parameter)
         {
 
@@ -157,7 +151,7 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                 if (_createdLinks.Any())
                 {
                     _linkService.RemoveLinks(_createdLinks);
-                    TaskDialog.Show("Info", "Links temporários removidos com sucesso");
+                    TaskDialog.Show("Info", "Vinculos temporários removidos com sucesso");
                 }
             }
             catch (Exception ex)

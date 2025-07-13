@@ -43,7 +43,7 @@ namespace FuroAutomaticoRevit.Revit
             //    }
             //}
             
-            //// Enable nested links
+            //// Ativar links aninhados
             //if (!activeView.AreLinkTypesVisible())
             //{
             //    activeView.SetIncludeLinks(true);
