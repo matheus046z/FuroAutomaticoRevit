@@ -106,25 +106,38 @@ namespace FuroAutomaticoRevit.UI.ViewModels
         {
             try
             {
-                // Ja foi linkado ?
-                if (_createdLinks.Any(l => l.File.FilePath == file.FilePath && l.ModelType == modelType))
+                // Seleção de arquivos
+                if (modelType == "MEP")
                 {
-                    TaskDialog.Show("Info", $"O modelo {file.FileName} já está vinculado");
+                    _selectedMepModel = file;
+                    OnPropertyChanged(nameof(SelectedMepModel));
+                }
+                else
+                {
+                    _selectedStructuralModel = file;
+                    OnPropertyChanged(nameof(SelectedStructuralModel));
+                }
+
+                // Não linkar se ja existir vínculo
+                if (_createdLinks.Any(l => l.File.FilePath == file.FilePath))
+                {
+                    //TaskDialog.Show("Info", $"O modelo {file.FileName} já está vinculado");
                     return;
                 }
 
-                // Arquivo ja foi linkado no projeto ?
+                // Pular criação de vinvulo se ja existir
                 if (_linkService.IsFileLinked(file.FilePath))
                 {
-                    TaskDialog.Show("Info", $"O modelo {file.FileName} já está vinculado no projeto");
+                    //TaskDialog.Show("Info", $"O modelo {file.FileName} já está vinculado no projeto");
                     return;
                 }
-
+         
                 LinkedModel linkedModel = _linkService.LinkModel(file, modelType);
                 _visibilityService.EnsureLinkVisibility(linkedModel.Instance);
                 _createdLinks.Add(linkedModel);
 
                 TaskDialog.Show("Sucesso", $"Modelo {file.FileName} vinculado com sucesso!");
+
             }
             catch (Exception ex)
             {
