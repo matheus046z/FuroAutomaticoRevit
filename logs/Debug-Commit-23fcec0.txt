@@ -1,0 +1,98 @@
+FuroAutomaticoRevit - Debug 
+Target view found: Vista teste
+
+FuroAutomaticoRevit - Debug 
+Section box active: True
+
+
+FuroAutomaticoRevit - Debug. 
+Section box: Min=(-37.309437666, -37.296305524, -3.008084087), 
+Max=(42.751674252, 19.950164981, 4.761368322)
+
+FuroAutomaticoRevit - DEBUG 
+Iniciando metodo Findintersections
+
+FuroAutomaticoRevit - Debug. 
+Found target view: Vista teste
+
+FuroAutomaticoRevit - Debug 
+MEP Transform: (0.000000000, 0.000000000, 0.000000000) 
+Structural Transform: (0.000000000, 0000000000, 0.000000000)
+
+FuroAutomaticoRevit - Debug 
+Link transform: Origin=(0.000000000, 0000000000, 0.000000000), 
+BasisX=(1.000000000, 0.000000000, 0.000000000), 
+BasisY=(0.000000000, 1.000000000, 0.000000000), 
+BasisZ=(0.000000000, 0.000000000, 1.000000000)
+
+FuroAutomaticoRevit - Debug 
+Project base point: (0.000000000, 0000000000, 0.000000000)
+
+FuroAutomaticoRevit - Debug. 
+Original section box: 
+Min=(-37.309437666, -37.296305524, -3.008084087), 
+Max=(42.751674252, 19.950164981, 4.761368322)
+
+FuroAutomaticoReit - Debug 
+Section box after base point offset: 
+Min=(-37.309437666, -37.296305524, -3.008084087), 
+Max=(42.751674252, 19.950164981, 4.761368322)
+
+FuroAutomaticoRevit - Debug 
+Link outline: 
+Min=(-37.309437666, -37.296305524, -3.008084087), 
+Max=(42.751674252, 19.950164981, 4.761368322)
+
+FuroAutomaticoRevit - Debug 
+Found 0 elements in view after filtering
+
+FuroAutomaticoRevit - Debug. 
+Raw elements found for category OST_PipeCurves: 0
+
+FuroAutomaticoRevit - Debug. 
+Filtered elements for type 'Tubo - Esgoto - Série Normal: 0
+
+
+FuroAutomaticoRevit - Debug 
+No pipes found. Checking raw elements...
+
+
+FuroAutomaticoRevit - Debug. 
+Link transform: 
+Origin=(0.000000000, 0000000000, 0.000000000), 
+BasisX=(1.000000000, 0.000000000, 0.000000000), 
+BasisY=(0.000000000, 1.000000000, 0.000000000), 
+BasisZ=(0.000000000, 0.000000000, 1.000000000)
+
+
+FuroAutomaticoRevit - Debug 
+Project base point: (0.000000000, 0.000000000, 0.000000000)
+
+FuroAutomaticoRevit - Debug. 
+Original section box: 
+Min=(-37.309437666, -37.296305524, -3.008084087), 
+Max=(42.751674252, 19.950164981, 4.761368322)
+
+
+
+FuroAutomaticoRevit - Debug 
+Found 0 elements in view after filtering
+
+FuroAutomaticoRevit - Debug 
+Raw pipes found: 0
+
+FuroAutomaticoRevit - Debug 
+Filtered elements for type ‘Generic Floor - 400mm™: 0
+
+FuroAutomaticoRevit - Debug 
+Found 0 slabs of type ‘Generic Floor - 400mm’
+
+FuroAutomaticoRevit - Debug 
+Total pipes and conduits: 0
+
+
+FuroAutomaticoRevit - Debug 
+Processed O pipes and O slabs. Found 0 intersections.
+
+FuroAutomaticoRevit - Info 
+Nenhuma intersegéo encontrada
