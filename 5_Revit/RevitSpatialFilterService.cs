@@ -31,13 +31,22 @@ namespace FuroAutomaticoRevit.Revit
             XYZ basePointOffset = GetProjectBasePointOffset(linkedDoc);
             TaskDialog.Show("Debug", $"Base point offset: {basePointOffset}");
 
-            // Create filter for the view crop box
-            var filter = CreateViewFilter(view, transform, basePointOffset);
+
+            // Create filter for the view section box
+            var filter = CreateSectionBoxFilter(view, transform, basePointOffset);
             if (filter == null)
             {
-                TaskDialog.Show("Debug", "View filter is null");
+                TaskDialog.Show("Debug", "Section box filter is null");
                 return new List<Element>();
             }
+
+            // Create filter for the view crop box
+            //var filter = CreateViewFilter(view, transform, basePointOffset);
+            //if (filter == null)
+            //{
+            //    TaskDialog.Show("Debug", "View filter is null");
+            //    return new List<Element>();
+            //}
 
             // Create category filter
             var categoryFilter = new ElementMulticategoryFilter(categories.ToList());
@@ -56,29 +65,33 @@ namespace FuroAutomaticoRevit.Revit
 
         }
 
-        private ElementFilter CreateViewFilter(
-            View3D view,
-            Transform linkTransform,
-            XYZ basePointOffset)
+        private ElementFilter CreateSectionBoxFilter(
+    View3D view,
+    Transform linkTransform,
+    XYZ basePointOffset)
         {
-            // Get view crop box
-            BoundingBoxXYZ cropBox = view.CropBox;
-
-            if (cropBox == null)
+            // Verify section box is active
+            if (!view.IsSectionBoxActive)
             {
-                TaskDialog.Show("Debug", "Crop box is null");
+                TaskDialog.Show("Debug", "Section box is not active");
                 return null;
             }
 
-            TaskDialog.Show("Debug", $"Original crop box: Min={cropBox.Min}, Max={cropBox.Max}");
+            // Get section box
+            BoundingBoxXYZ sectionBox = view.GetSectionBox();
+            if (sectionBox == null)
+            {
+                TaskDialog.Show("Debug", "Section box is null");
+                return null;
+            }
 
-            // Apply base point offset to crop box
-            XYZ minPoint = cropBox.Min - basePointOffset;
-            XYZ maxPoint = cropBox.Max - basePointOffset;
+            TaskDialog.Show("Debug", $"Original section box: Min={sectionBox.Min}, Max={sectionBox.Max}");
 
-            TaskDialog.Show("Debug", $"Crop box after base point offset: Min={minPoint}, Max={maxPoint}");
+            // Apply base point offset to section box
+            XYZ minPoint = sectionBox.Min - basePointOffset;
+            XYZ maxPoint = sectionBox.Max - basePointOffset;
 
-
+            TaskDialog.Show("Debug", $"Section box after base point offset: Min={minPoint}, Max={maxPoint}");
 
             // Create outline in host coordinates
             Outline hostOutline = new Outline(minPoint, maxPoint);
@@ -87,12 +100,50 @@ namespace FuroAutomaticoRevit.Revit
             Transform inverseTransform = linkTransform.Inverse;
             Outline linkOutline = TransformOutline(hostOutline, inverseTransform);
 
-            TaskDialog.Show("Debug", $"Link outline: Min={linkOutline.MinimumPoint}, " +
-                $"Max={linkOutline.MaximumPoint}");
+            TaskDialog.Show("Debug", $"Link outline: Min={linkOutline.MinimumPoint}, Max={linkOutline.MaximumPoint}");
 
             // Create spatial filter
             return new BoundingBoxIntersectsFilter(linkOutline);
         }
+
+
+        //private ElementFilter CreateViewFilter(
+        //    View3D view,
+        //    Transform linkTransform,
+        //    XYZ basePointOffset)
+        //{
+        //    // Get view crop box
+        //    BoundingBoxXYZ cropBox = view.CropBox;
+
+        //    if (cropBox == null)
+        //    {
+        //        TaskDialog.Show("Debug", "Crop box is null");
+        //        return null;
+        //    }
+
+        //    TaskDialog.Show("Debug", $"Original crop box: Min={cropBox.Min}, Max={cropBox.Max}");
+
+        //    // Apply base point offset to crop box
+        //    XYZ minPoint = cropBox.Min - basePointOffset;
+        //    XYZ maxPoint = cropBox.Max - basePointOffset;
+
+        //    TaskDialog.Show("Debug", $"Crop box after base point offset: Min={minPoint}, Max={maxPoint}");
+
+
+
+        //    // Create outline in host coordinates
+        //    Outline hostOutline = new Outline(minPoint, maxPoint);
+
+        //    // Transform to link coordinates
+        //    Transform inverseTransform = linkTransform.Inverse;
+        //    Outline linkOutline = TransformOutline(hostOutline, inverseTransform);
+
+        //    TaskDialog.Show("Debug", $"Link outline: Min={linkOutline.MinimumPoint}, " +
+        //        $"Max={linkOutline.MaximumPoint}");
+
+        //    // Create spatial filter
+        //    return new BoundingBoxIntersectsFilter(linkOutline);
+        //}
 
 
 

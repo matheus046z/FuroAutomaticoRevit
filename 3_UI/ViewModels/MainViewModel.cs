@@ -155,7 +155,7 @@ namespace FuroAutomaticoRevit.UI.ViewModels
             {
                 Document doc = _uiApp.ActiveUIDocument.Document;
 
-                // TESTANDO SELEÇÃO DA VISTA TESTE - VERIFICAR SE O CROPBOX ESTA NELA
+                // TESTANDO SELEÇÃO DA VISTA TESTE - VERIFICAR SE O VIEW BOX ESTA NELA (VIEW BOX != CROPBOX)
                 const string TARGET_VIEW_NAME = "Vista teste";
                 View3D targetView = new FilteredElementCollector(doc)
                     .OfClass(typeof(View3D))
@@ -169,8 +169,24 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                 }
 
                 TaskDialog.Show("Debug", $"Target view found: {targetView.Name}");
-                TaskDialog.Show("Debug", $"Crop box active: {targetView.CropBoxActive}");
-                TaskDialog.Show("Debug", $"Crop box: Min={targetView.CropBox?.Min}, Max={targetView.CropBox?.Max}");
+                TaskDialog.Show("Debug", $"Section box active: {targetView.IsSectionBoxActive}");
+
+                // Verify section box is active
+                if (!targetView.IsSectionBoxActive)
+                {
+                    TaskDialog.Show("Erro", "A 'Section Box' não está ativa na vista 'Vista teste'. Ative-a e tente novamente.");
+                    return;
+                }
+
+                // Get and log section box details
+                BoundingBoxXYZ sectionBox = targetView.GetSectionBox();
+                if (sectionBox == null)
+                {
+                    TaskDialog.Show("Erro", "Section box não encontrada na vista!");
+                    return;
+                }
+
+                TaskDialog.Show("Debug", $"Section box: Min={sectionBox.Min}, Max={sectionBox.Max}");
 
 
                 // Get links
@@ -194,6 +210,8 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                 }
 
                 // finger but hole
+
+                TaskDialog.Show("Debug", $"Creating {intersections.Count} openings");
                 new HoleCreationService(doc).CreateOpenings(intersections);
                 TaskDialog.Show("Sucesso", $"Criadas {intersections.Count} aberturas");
             }

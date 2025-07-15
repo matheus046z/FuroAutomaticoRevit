@@ -56,10 +56,27 @@ namespace FuroAutomaticoRevit.Core
             TaskDialog.Show("Debug", $"MEP Transform: " +
                 $"{mepTransform.Origin}\nStructural Transform: {structuralTransform.Origin}");
 
+
+            // PIPES
             var pipes = GetElementsOfType(
                 spatialFilter, mepLink, targetView,
                 BuiltInCategory.OST_PipeCurves, SANITARY_PIPE_TYPE);
                 TaskDialog.Show("Debug", $"Found {pipes.Count} pipes of type '{SANITARY_PIPE_TYPE}'");
+
+            if (pipes.Count == 0)
+            {
+                TaskDialog.Show("Debug", "No pipes found. Checking raw elements...");
+                var rawPipes = spatialFilter.GetElementsInView(mepLink, targetView,
+                    new[] { BuiltInCategory.OST_PipeCurves });
+                TaskDialog.Show("Debug", $"Raw pipes found: {rawPipes.Count}");
+
+                foreach (var pipe in rawPipes)
+                {
+                    TaskDialog.Show("Debug", $"Pipe: ID={pipe.Id}, Name={pipe.Name}, " +
+                        $"Type={pipe.get_Parameter(BuiltInParameter.ELEM_TYPE_PARAM)?.AsValueString()}");
+                }
+            }
+
 
             var conduits = GetElementsOfType(
                 spatialFilter, mepLink, targetView,
@@ -134,28 +151,65 @@ namespace FuroAutomaticoRevit.Core
             BuiltInCategory category,
             string typeName)
         {
-            var elements = spatialFilter.GetElementsInView(link, view, new[] { category })
-                .Where(e => e.Name?.Contains(typeName) == true ||
-                       e.get_Parameter(BuiltInParameter.ELEM_TYPE_PARAM)
-                           ?.AsValueString()?.Contains(typeName) == true)
-                .ToList();
-            
-            // Debug element types
-            if (elements.Any())
-            {
-                TaskDialog.Show("Debug", $"Elements of type '{typeName}':\n" +
-                    string.Join("\n", elements.Select(e =>
-                        $"ID: {e.Id}, Name: {e.Name}, Type: {e.get_Parameter(BuiltInParameter.ELEM_TYPE_PARAM)?.AsValueString()}")));
-            }
-            else
-            {
-                TaskDialog.Show("Debug", $"No elements found for type '{typeName}'");
-            }
+            var elements = spatialFilter.GetElementsInView(link, view, new[] { category });
 
-            return elements;
+            TaskDialog.Show("Debug", $"Raw elements found for category {category}: {elements.Count}");
+
+            var filtered = elements
+                .Where(e => {
+                    string name = e.Name ?? "";
+                    string typeParam = e.get_Parameter(BuiltInParameter.ELEM_TYPE_PARAM)?.AsValueString() ?? "";
+                    string categoryName = e.Category?.Name ?? "";
+
+                    bool matches = name.Contains(typeName) ||
+                                  typeParam.Contains(typeName) ||
+                                  categoryName.Contains(typeName);
+
+                    if (!matches)
+                    {
+                        TaskDialog.Show("Debug", $"Element filtered out: " +
+                            $"ID={e.Id}, Name={name}, Type={typeParam}, Category={categoryName}");
+                    }
+
+                    return matches;
+                })
+                .ToList();
+
+            TaskDialog.Show("Debug", $"Filtered elements for type '{typeName}': {filtered.Count}");
+
+            return filtered;
         }
 
-        
+
+        //private List<Element> GetElementsOfType(
+        //    RevitSpatialFilterService spatialFilter,
+        //    RevitLinkInstance link,
+        //    View3D view,
+        //    BuiltInCategory category,
+        //    string typeName)
+        //{
+        //    var elements = spatialFilter.GetElementsInView(link, view, new[] { category })
+        //        .Where(e => e.Name?.Contains(typeName) == true ||
+        //               e.get_Parameter(BuiltInParameter.ELEM_TYPE_PARAM)
+        //                   ?.AsValueString()?.Contains(typeName) == true)
+        //        .ToList();
+
+        //    // Debug element types
+        //    if (elements.Any())
+        //    {
+        //        TaskDialog.Show("Debug", $"Elements of type '{typeName}':\n" +
+        //            string.Join("\n", elements.Select(e =>
+        //                $"ID: {e.Id}, Name: {e.Name}, Type: {e.get_Parameter(BuiltInParameter.ELEM_TYPE_PARAM)?.AsValueString()}")));
+        //    }
+        //    else
+        //    {
+        //        TaskDialog.Show("Debug", $"No elements found for type '{typeName}'");
+        //    }
+
+        //    return elements;
+        //}
+
+
         //public IList<IntersectionData> FindIntersections(
         //    RevitLinkInstance mepLink,
         //    RevitLinkInstance structuralLink)
