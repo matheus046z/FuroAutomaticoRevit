@@ -151,19 +151,16 @@ namespace FuroAutomaticoRevit.UI.ViewModels
 
         private void Execute(object parameter)
         {
-
             try
             {
                 Document doc = _uiApp.ActiveUIDocument.Document;
 
-                // Sleciona a vista teste para filtrar elementos
+                // TESTANDO SELEÇÃO DA VISTA TESTE - VERIFICAR SE O CROPBOX ESTA NELA
                 const string TARGET_VIEW_NAME = "Vista teste";
-
                 View3D targetView = new FilteredElementCollector(doc)
                     .OfClass(typeof(View3D))
                     .Cast<View3D>()
                     .FirstOrDefault(v => v.Name.Equals(TARGET_VIEW_NAME));
-
 
                 if (targetView == null)
                 {
@@ -171,99 +168,161 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                     return;
                 }
 
-
-                // Elevaçao da vist aatual
-                double viewElevation = 0;
-                Level viewLevel = targetView.GenLevel;
-                if (viewLevel != null)
-                {
-                    viewElevation = viewLevel.Elevation;
-                }
-
-                // Pegar a caixa de recorte (crop box) da vista
-                BoundingBoxXYZ viewCropBox = targetView.CropBox;
-                if (viewCropBox == null)
-                {
-                    TaskDialog.Show("Erro", "A vista não possui uma caixa de recorte (crop box)!");
-                    return;
-                }
-
-                // Expand all dimensions by 10% to include nearby elements
-                XYZ viewMin = viewCropBox.Min;
-                XYZ viewMax = viewCropBox.Max;
-                double expandX = (viewMax.X - viewMin.X) * 0.1;
-                double expandY = (viewMax.Y - viewMin.Y) * 0.1;
-
-                Outline viewOutline = new Outline(
-                    new XYZ(viewMin.X - expandX, viewMin.Y - expandY, -1000),
-                    new XYZ(viewMax.X + expandX, viewMax.Y + expandY, 1000)
-                );
-
-
-                // Selecionar modelos
+                // Get links
                 var mepLink = GetLinkInstance(SelectedMepModel, doc);
                 var structuralLink = GetLinkInstance(SelectedStructuralModel, doc);
 
                 if (mepLink == null || structuralLink == null)
                 {
-                    TaskDialog.Show("Erro", "Selecione o modelo de tubos e o modelo estrutural!");
+                    TaskDialog.Show("Erro", "Selecione ambos os modelos!");
                     return;
                 }
 
-                // Encontrar interseções
+                // Find intersections
                 var intersectionService = new IntersectionService(doc);
-                var intersections = intersectionService.FindIntersections(
-                    mepLink,
-                    structuralLink,
-                    viewOutline  // Pass the 3D view directly
-                );
+                var intersections = intersectionService.FindIntersections(mepLink, structuralLink);
 
-
-
-
-                //DEBUG
-
-                TaskDialog.Show("Debug - Links",
-                $"Link dos tubos: {(mepLink != null ? "Encontrado!" : "Não encontrado...")}\n" +
-                $"Link do estrutural: {(structuralLink != null ? "Encontrado!" : "Não encontrado...")}");
-
-                TaskDialog.Show("Debug - View Outline",
-                $"View Outline Min: {viewOutline.MinimumPoint}\n" +
-                $"View Outline Max: {viewOutline.MaximumPoint}\n" +
-                $"View Outline Size: {viewOutline.MaximumPoint - viewOutline.MinimumPoint}");
-
-                TaskDialog.Show("View Info",
-                $"View Name: {targetView.Name}\n" +
-                $"View Level: {targetView.GenLevel?.Name}\n" +
-                $"View Elevation: {targetView.GenLevel?.Elevation}");
-
-                //DEBUG
-
-
-
-
-                if (!intersections.Any())
+                if (intersections.Count == 0)
                 {
-                    TaskDialog.Show("Info", "Não foram encontradas interseções");
-                    (parameter as Window)?.Close();
+                    TaskDialog.Show("Info", "Nenhuma interseção encontrada");
                     return;
                 }
 
-                // Cria aberturas
-                var holeService = new HoleCreationService(doc);
-                holeService.CreateOpenings(intersections);
-
-                TaskDialog.Show("Sucesso", $"Foram criadas {intersections.Count} aberturas");
+                // Create openings
+                new HoleCreationService(doc).CreateOpenings(intersections);
+                TaskDialog.Show("Sucesso", $"Criadas {intersections.Count} aberturas");
             }
             catch (Exception ex)
             {
-                TaskDialog.Show("Erro", ex.ToString());
+                TaskDialog.Show("Erro", ex.Message);
             }
             finally
             {
                 (parameter as Window)?.Close();
-            }   
+            }
         }
+
+
+
+        // Execute antigo
+
+        //private void Execute(object parameter)
+        //{
+
+        //    try
+        //    {
+        //        Document doc = _uiApp.ActiveUIDocument.Document;
+
+        //        // Sleciona a vista teste para filtrar elementos
+        //        const string TARGET_VIEW_NAME = "Vista teste";
+
+        //        View3D targetView = new FilteredElementCollector(doc)
+        //            .OfClass(typeof(View3D))
+        //            .Cast<View3D>()
+        //            .FirstOrDefault(v => v.Name.Equals(TARGET_VIEW_NAME));
+
+
+        //        if (targetView == null)
+        //        {
+        //            TaskDialog.Show("Erro", $"A vista '{TARGET_VIEW_NAME}' não foi encontrada!");
+        //            return;
+        //        }
+
+
+        //        // Elevaçao da vist aatual
+        //        double viewElevation = 0;
+        //        Level viewLevel = targetView.GenLevel;
+        //        if (viewLevel != null)
+        //        {
+        //            viewElevation = viewLevel.Elevation;
+        //        }
+
+        //        // Pegar a caixa de recorte (crop box) da vista
+        //        BoundingBoxXYZ viewCropBox = targetView.CropBox;
+        //        if (viewCropBox == null)
+        //        {
+        //            TaskDialog.Show("Erro", "A vista não possui uma caixa de recorte (crop box)!");
+        //            return;
+        //        }
+
+        //        // Expand all dimensions by 10% to include nearby elements
+        //        XYZ viewMin = viewCropBox.Min;
+        //        XYZ viewMax = viewCropBox.Max;
+        //        double expandX = (viewMax.X - viewMin.X) * 0.1;
+        //        double expandY = (viewMax.Y - viewMin.Y) * 0.1;
+
+        //        Outline viewOutline = new Outline(
+        //            new XYZ(viewMin.X - expandX, viewMin.Y - expandY, -1000),
+        //            new XYZ(viewMax.X + expandX, viewMax.Y + expandY, 1000)
+        //        );
+
+
+        //        // Selecionar modelos
+        //        var mepLink = GetLinkInstance(SelectedMepModel, doc);
+        //        var structuralLink = GetLinkInstance(SelectedStructuralModel, doc);
+
+        //        if (mepLink == null || structuralLink == null)
+        //        {
+        //            TaskDialog.Show("Erro", "Selecione o modelo de tubos e o modelo estrutural!");
+        //            return;
+        //        }
+
+        //        // Encontrar interseções
+        //        var intersectionService = new IntersectionService(doc);
+        //        var intersections = intersectionService.FindIntersections(
+        //            mepLink,
+        //            structuralLink,
+        //            viewOutline  // Pass the 3D view directly
+        //        );
+
+
+
+
+        //        //DEBUG
+
+        //        TaskDialog.Show("Debug - Links",
+        //        $"Link dos tubos: {(mepLink != null ? "Encontrado!" : "Não encontrado...")}\n" +
+        //        $"Link do estrutural: {(structuralLink != null ? "Encontrado!" : "Não encontrado...")}");
+
+        //        TaskDialog.Show("Debug - View Outline",
+        //        $"View Outline Min: {viewOutline.MinimumPoint}\n" +
+        //        $"View Outline Max: {viewOutline.MaximumPoint}\n" +
+        //        $"View Outline Size: {viewOutline.MaximumPoint - viewOutline.MinimumPoint}");
+
+        //        TaskDialog.Show("View Info",
+        //        $"View Name: {targetView.Name}\n" +
+        //        $"View Level: {targetView.GenLevel?.Name}\n" +
+        //        $"View Elevation: {targetView.GenLevel?.Elevation}");
+
+        //        //DEBUG
+
+
+
+
+        //        if (!intersections.Any())
+        //        {
+        //            TaskDialog.Show("Info", "Não foram encontradas interseções");
+        //            (parameter as Window)?.Close();
+        //            return;
+        //        }
+
+        //        // Cria aberturas
+        //        var holeService = new HoleCreationService(doc);
+        //        holeService.CreateOpenings(intersections);
+
+        //        TaskDialog.Show("Sucesso", $"Foram criadas {intersections.Count} aberturas");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TaskDialog.Show("Erro", ex.ToString());
+        //    }
+        //    finally
+        //    {
+        //        (parameter as Window)?.Close();
+        //    }   
+        //}
+
+        // Execute antigo
 
         private RevitLinkInstance GetLinkInstance(RvtFile file, Document doc)
         {
