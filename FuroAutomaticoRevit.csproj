@@ -57,6 +57,7 @@
     <Compile Include="3_UI\ViewModels\MainViewModel.cs" />
     <Compile Include="3_UI\ViewModels\RelayCommand.cs" />
     <Compile Include="5_Revit\LinkVisibilityService.cs" />
+    <Compile Include="5_Revit\RevitSpatialFilterService.cs" />
     <Compile Include="6_Domain\LinkedModel.cs" />
     <Compile Include="6_Domain\RvtFile.cs" />
     <Compile Include="3_UI\ViewModels\ViewModelBase.cs" />

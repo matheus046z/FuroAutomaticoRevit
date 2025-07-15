@@ -31,26 +31,6 @@ namespace FuroAutomaticoRevit.Revit
                     t.Commit();
                 }
             }
-
-            //ICollection<ElementId> hiddenElements = activeView.GetHiddenElements();
-            //if (hiddenElements.Contains(linkInstance.Id))
-            //{
-            //    using (Transaction t = new Transaction(_doc, "Unhide Link"))
-            //    {
-            //        t.Start();
-            //        activeView.UnhideElements(new List<ElementId> { linkInstance.Id });
-            //        t.Commit();
-            //    }
-            //}
-            
-            //// Ativar links aninhados
-            //if (!activeView.AreLinkTypesVisible())
-            //{
-            //    activeView.SetIncludeLinks(true);
-            //}
-
-            //// Refresh view
-            //_doc.ActiveView.RefreshActiveView();
         }
     }
 }
