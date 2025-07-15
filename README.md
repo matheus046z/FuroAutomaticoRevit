@@ -64,10 +64,29 @@ Ignorar todos os elementos e interseções fora dessa vista específica
 - [x] Persistência de seleção nas ComboBoxes
 
 ### Tarefas Pendentes 
+- [ ] Filtro de elementos por vista ("Vista Teste")
 - [ ] Serviço de detecção de interseções
 - [ ] Criação de furos com a família `FURO-QUADRADO-LAJE`
 - [ ] Cálculo de dimensões (espessura da laje + 5 cm)
-- [ ] Filtro de elementos por vista ("Vista Teste")
 - [ ] Criação do pacote de instalação
 - [ ] Documentação para o usuário
 - [ ] Adicionar compatibilidade com outras versões do Revit
+
+### Links Úteis - Revit API
+- [`GetWorksetConfiguration` Method](https://www.revitapidocs.com/2023/eefef6f4-0892-4bb5-8840-5e99aebc65c9.htm)
+- [`WorksetConfiguration` Class](https://www.revitapidocs.com/2023/eefef6f4-0892-4bb5-8840-5e99aebc65c9.htm)
+- [`TaskDialogShowingEventArgs` Class](https://www.revitapidocs.com/2023/96cc0900-708b-5a2c-8d07-b2596ec20700.htm)
+- [`SetWorksetConfiguration` Method](https://www.revitapidocs.com/2023/8e0fe0c5-3dd9-806b-6e0d-d42f8d498be2.htm)
+- [View Methods](https://www.revitapidocs.com/2023/2d37a7c0-7734-3b5b-9f80-c18d38e82ea8.htm)
+- [`GetWorksetVisibility` Method](https://www.revitapidocs.com/2023/1c37557b-9bd4-12e2-dffb-c3a25cf9a375.htm)
+- [`GetCategoryHidden` Method](https://www.revitapidocs.com/2023/52ce4cea-6f27-9e85-f82a-115e308eebfc.htm)
+- [`ReferenceIntersector` Class](https://www.revitapidocs.com/2023/36f82b40-1065-2305-e260-18fc618e756f.htm)
+- [`BooleanOperationsUtils` Properties](https://www.revitapidocs.com/2023/89cb7975-cc76-65ba-b996-bcb78d12161a.htm)
+- [`Intersect` Method](https://www.revitapidocs.com/2023/570fb842-cac3-83f5-1ab9-621e55186ead.htm)
+- [`CropBox` Property (View)](https://www.revitapidocs.com/2023/d6246051-ecfb-7388-0429-6ed65de72638.htm)
+- [`CropBox` Property (ViewPlan)](https://www.revitapidocs.com/2023/fc35a86f-e7de-599b-f262-77ce06b3d3ff.htm)
+- [`GetCropRegionShapeManager` Method](https://www.revitapidocs.com/2023/e2f53728-9b72-227a-f585-9dccf6d79d9f.htm)
+- [`GetBoundingBox` Method](https://www.revitapidocs.com/2022/32e76eb1-e305-ead5-0b3b-9eb15891c957.htm?section=seeAlsoToggle)
+- [`Intersect` Method (Curve, IntersectionResultArray)](https://www.revitapidocs.com/2023/570fb842-cac3-83f5-1ab9-621e55186ead.htm)
+- [`GetProjectBasePoint` Method](https://www.revitapidocs.com/2022/fa70b69b-0339-15d9-7549-fafdb442f756.htm)
+
