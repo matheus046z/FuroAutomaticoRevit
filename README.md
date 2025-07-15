@@ -77,7 +77,7 @@ Ignorar todos os elementos e interseções fora dessa vista específica
 - [`WorksetConfiguration` Class](https://www.revitapidocs.com/2023/eefef6f4-0892-4bb5-8840-5e99aebc65c9.htm)
 - [`TaskDialogShowingEventArgs` Class](https://www.revitapidocs.com/2023/96cc0900-708b-5a2c-8d07-b2596ec20700.htm)
 - [`SetWorksetConfiguration` Method](https://www.revitapidocs.com/2023/8e0fe0c5-3dd9-806b-6e0d-d42f8d498be2.htm)
-- [View Methods](https://www.revitapidocs.com/2023/2d37a7c0-7734-3b5b-9f80-c18d38e82ea8.htm)
+- [`View Methods`](https://www.revitapidocs.com/2023/2d37a7c0-7734-3b5b-9f80-c18d38e82ea8.htm)
 - [`GetWorksetVisibility` Method](https://www.revitapidocs.com/2023/1c37557b-9bd4-12e2-dffb-c3a25cf9a375.htm)
 - [`GetCategoryHidden` Method](https://www.revitapidocs.com/2023/52ce4cea-6f27-9e85-f82a-115e308eebfc.htm)
 - [`ReferenceIntersector` Class](https://www.revitapidocs.com/2023/36f82b40-1065-2305-e260-18fc618e756f.htm)
