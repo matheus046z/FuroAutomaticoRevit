@@ -69,6 +69,7 @@ Ignorar todos os elementos e interseções fora dessa vista específica
 - [ ] Criação de furos com a família `FURO-QUADRADO-LAJE`
 - [ ] Cálculo de dimensões (espessura da laje + 5 cm)
 - [ ] Criação do pacote de instalação
+- [ ] Criaçao de Log automático de erros
 - [ ] Documentação para o usuário
 - [ ] Adicionar compatibilidade com outras versões do Revit
 
