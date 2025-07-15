@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,14 +24,20 @@ namespace FuroAutomaticoRevit.Revit
 
             // Get transform from link to host
             Transform transform = link.GetTotalTransform();
+            TaskDialog.Show("Debug", $"Link transform: Origin={transform.Origin}, " +
+                $"BasisX={transform.BasisX}, BasisY={transform.BasisY}, BasisZ={transform.BasisZ}");
 
             // Get project base point offset
             XYZ basePointOffset = GetProjectBasePointOffset(linkedDoc);
+            TaskDialog.Show("Debug", $"Base point offset: {basePointOffset}");
 
             // Create filter for the view crop box
             var filter = CreateViewFilter(view, transform, basePointOffset);
-
-            if (filter == null) return new List<Element>();
+            if (filter == null)
+            {
+                TaskDialog.Show("Debug", "View filter is null");
+                return new List<Element>();
+            }
 
             // Create category filter
             var categoryFilter = new ElementMulticategoryFilter(categories.ToList());
@@ -38,13 +45,16 @@ namespace FuroAutomaticoRevit.Revit
             // Combine filters
             var andFilter = new LogicalAndFilter(filter, categoryFilter);
 
-            return new FilteredElementCollector(linkedDoc)
+            var elements = new FilteredElementCollector(linkedDoc)
                 .WherePasses(andFilter)
                 .WhereElementIsNotElementType()
                 .ToList();
+            
+            TaskDialog.Show("Debug", $"Found {elements.Count} elements in view after filtering");
+
+            return elements;
+
         }
-
-
 
         private ElementFilter CreateViewFilter(
             View3D view,
@@ -53,11 +63,22 @@ namespace FuroAutomaticoRevit.Revit
         {
             // Get view crop box
             BoundingBoxXYZ cropBox = view.CropBox;
-            if (cropBox == null) return null;
+
+            if (cropBox == null)
+            {
+                TaskDialog.Show("Debug", "Crop box is null");
+                return null;
+            }
+
+            TaskDialog.Show("Debug", $"Original crop box: Min={cropBox.Min}, Max={cropBox.Max}");
 
             // Apply base point offset to crop box
             XYZ minPoint = cropBox.Min - basePointOffset;
             XYZ maxPoint = cropBox.Max - basePointOffset;
+
+            TaskDialog.Show("Debug", $"Crop box after base point offset: Min={minPoint}, Max={maxPoint}");
+
+
 
             // Create outline in host coordinates
             Outline hostOutline = new Outline(minPoint, maxPoint);
@@ -65,6 +86,9 @@ namespace FuroAutomaticoRevit.Revit
             // Transform to link coordinates
             Transform inverseTransform = linkTransform.Inverse;
             Outline linkOutline = TransformOutline(hostOutline, inverseTransform);
+
+            TaskDialog.Show("Debug", $"Link outline: Min={linkOutline.MinimumPoint}, " +
+                $"Max={linkOutline.MaximumPoint}");
 
             // Create spatial filter
             return new BoundingBoxIntersectsFilter(linkOutline);
@@ -132,13 +156,19 @@ namespace FuroAutomaticoRevit.Revit
                 .Cast<BasePoint>()
                 .FirstOrDefault(bp => bp.get_Parameter(BuiltInParameter.BASEPOINT_EASTWEST_PARAM) != null);
 
-            if (basePoint == null) return XYZ.Zero;
+            if (basePoint == null)
+            {
+                TaskDialog.Show("Debug", "Project base point not found");
+                return XYZ.Zero;
+            }
 
             double eastWest = basePoint.get_Parameter(BuiltInParameter.BASEPOINT_EASTWEST_PARAM).AsDouble();
             double northSouth = basePoint.get_Parameter(BuiltInParameter.BASEPOINT_NORTHSOUTH_PARAM).AsDouble();
             double elevation = basePoint.get_Parameter(BuiltInParameter.BASEPOINT_ELEVATION_PARAM).AsDouble();
 
-            return new XYZ(eastWest, northSouth, elevation);
+            var offset = new XYZ(eastWest, northSouth, elevation);
+            TaskDialog.Show("Debug", $"Project base point: {offset}");
+            return offset;
         }
     }
 }

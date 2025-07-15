@@ -33,9 +33,17 @@ namespace FuroAutomaticoRevit.Core
             const string TARGET_VIEW = "Vista teste";
             var results = new List<IntersectionData>();
 
+            TaskDialog.Show("DEBUG", "Iniciando metodo FindIntersections");
+
             // Get target view
             View3D targetView = _filterService.GetViewByName(TARGET_VIEW) as View3D;
-            if (targetView == null) return results;
+            if (targetView == null)
+            {
+                TaskDialog.Show("Erro", $"A vista '{TARGET_VIEW}' não foi encontrada!");
+                return results;
+            }
+
+            TaskDialog.Show("Debug", $"Found target view: {targetView.Name}");
 
             // Initialize spatial filter service
             var spatialFilter = new RevitSpatialFilterService(_doc);
@@ -44,36 +52,62 @@ namespace FuroAutomaticoRevit.Core
             Transform mepTransform = mepLink.GetTotalTransform();
             Transform structuralTransform = structuralLink.GetTotalTransform();
 
-            // Get elements in view
+            // Debug: Transforms
+            TaskDialog.Show("Debug", $"MEP Transform: " +
+                $"{mepTransform.Origin}\nStructural Transform: {structuralTransform.Origin}");
+
             var pipes = GetElementsOfType(
                 spatialFilter, mepLink, targetView,
                 BuiltInCategory.OST_PipeCurves, SANITARY_PIPE_TYPE);
+                TaskDialog.Show("Debug", $"Found {pipes.Count} pipes of type '{SANITARY_PIPE_TYPE}'");
 
             var conduits = GetElementsOfType(
                 spatialFilter, mepLink, targetView,
                 BuiltInCategory.OST_Conduit, ELECTRICAL_CONDUIT_TYPE);
+                TaskDialog.Show("Debug", $"Found {conduits.Count} conduits of type '{ELECTRICAL_CONDUIT_TYPE}'");
 
             var slabs = GetElementsOfType(
                 spatialFilter, structuralLink, targetView,
                 BuiltInCategory.OST_Floors, STRUCTURAL_SLAB_TYPE);
+                TaskDialog.Show("Debug", $"Found {slabs.Count} slabs of type '{STRUCTURAL_SLAB_TYPE}'");
 
             // Combine pipes and conduits
             var allPipes = pipes.Concat(conduits).ToList();
+            TaskDialog.Show("Debug", $"Total pipes and conduits: {allPipes.Count}");
+
+            
+
+            // DEBUG
+            int pipeCount = 0;
+            int slabCount = 0;
+            int intersectionCount = 0;
+            //
 
             // Process intersections
             foreach (var pipe in allPipes)
             {
+                pipeCount++;
                 Solid pipeSolid = GeometryUtils.GetElementSolid(pipe, mepTransform);
-                if (pipeSolid?.Volume < TOLERANCE) continue;
+                if (pipeSolid?.Volume < TOLERANCE)
+                {
+                    TaskDialog.Show("Debug", $"Pipe {pipe.Id} has no valid solid");
+                    continue;
+                }
 
                 foreach (var slab in slabs)
                 {
+                    slabCount++;
                     Solid slabSolid = GeometryUtils.GetElementSolid(slab, structuralTransform);
-                    if (slabSolid?.Volume < TOLERANCE) continue;
+                    if (slabSolid?.Volume < TOLERANCE)
+                    {
+                        TaskDialog.Show("Debug", $"Slab {slab.Id} has no valid solid");
+                        continue;
+                    }
 
                     Solid intersection = GeometryUtils.GetIntersectionSolid(pipeSolid, slabSolid);
                     if (intersection?.Volume > TOLERANCE)
                     {
+                        intersectionCount++;
                         results.Add(new IntersectionData
                         {
                             Pipe = pipe,
@@ -82,9 +116,13 @@ namespace FuroAutomaticoRevit.Core
                             PipeDiameter = GetPipeDiameter(pipe),
                             SlabThickness = GetSlabThickness(slab)
                         });
+                        TaskDialog.Show("Debug", $"Found intersection at " +
+                            $"{GeometryUtils.GetCentroid(intersection)}");
                     }
                 }
             }
+            TaskDialog.Show("Debug", $"Processed {pipeCount} pipes and {slabCount} slabs. " +
+                $"Found {intersectionCount} intersections.");
             return results;
         }
 
@@ -96,11 +134,25 @@ namespace FuroAutomaticoRevit.Core
             BuiltInCategory category,
             string typeName)
         {
-            return spatialFilter.GetElementsInView(link, view, new[] { category })
+            var elements = spatialFilter.GetElementsInView(link, view, new[] { category })
                 .Where(e => e.Name?.Contains(typeName) == true ||
                        e.get_Parameter(BuiltInParameter.ELEM_TYPE_PARAM)
                            ?.AsValueString()?.Contains(typeName) == true)
                 .ToList();
+            
+            // Debug element types
+            if (elements.Any())
+            {
+                TaskDialog.Show("Debug", $"Elements of type '{typeName}':\n" +
+                    string.Join("\n", elements.Select(e =>
+                        $"ID: {e.Id}, Name: {e.Name}, Type: {e.get_Parameter(BuiltInParameter.ELEM_TYPE_PARAM)?.AsValueString()}")));
+            }
+            else
+            {
+                TaskDialog.Show("Debug", $"No elements found for type '{typeName}'");
+            }
+
+            return elements;
         }
 
         

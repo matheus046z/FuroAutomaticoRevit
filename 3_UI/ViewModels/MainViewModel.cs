@@ -168,6 +168,11 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                     return;
                 }
 
+                TaskDialog.Show("Debug", $"Target view found: {targetView.Name}");
+                TaskDialog.Show("Debug", $"Crop box active: {targetView.CropBoxActive}");
+                TaskDialog.Show("Debug", $"Crop box: Min={targetView.CropBox?.Min}, Max={targetView.CropBox?.Max}");
+
+
                 // Get links
                 var mepLink = GetLinkInstance(SelectedMepModel, doc);
                 var structuralLink = GetLinkInstance(SelectedStructuralModel, doc);
@@ -188,13 +193,13 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                     return;
                 }
 
-                // Create openings
+                // finger but hole
                 new HoleCreationService(doc).CreateOpenings(intersections);
                 TaskDialog.Show("Sucesso", $"Criadas {intersections.Count} aberturas");
             }
             catch (Exception ex)
             {
-                TaskDialog.Show("Erro", ex.Message);
+                TaskDialog.Show("Erro", $"Exception: {ex.Message}\n{ex.StackTrace}");
             }
             finally
             {

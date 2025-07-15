@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,16 @@ namespace FuroAutomaticoRevit.Core
         {
             try
             {
-                return BooleanOperationsUtils.ExecuteBooleanOperation(
-                    pipeSolid,
-                    slabSolid,
-                    BooleanOperationsType.Intersect
-                );
+                var result = BooleanOperationsUtils.ExecuteBooleanOperation(
+                    pipeSolid, slabSolid, BooleanOperationsType.Intersect);
+
+                TaskDialog.Show("Debug", $"Intersection solid volume: {result?.Volume ?? 0}");
+                
+                return result;
             }
-            catch
+            catch (Exception ex)
             {
+                TaskDialog.Show("Debug", $"Boolean operation failed: {ex.Message}");
                 return null;
             }
         }
@@ -34,7 +37,12 @@ namespace FuroAutomaticoRevit.Core
             Options options = new Options { ComputeReferences = true };
             GeometryElement geometry = element.get_Geometry(options);
 
-            if (geometry == null) return null;
+            if (geometry == null)
+            {
+            TaskDialog.Show("Debug", $"Element {element.Id} has no geometry");
+            return null;
+            }
+
 
             Solid solid = null;
             foreach (GeometryObject obj in geometry)
@@ -60,7 +68,15 @@ namespace FuroAutomaticoRevit.Core
                 if (solid != null) break;
             }
 
-            if (solid == null) return null;
+            if (solid == null)
+            {
+                TaskDialog.Show("Debug", $"No valid solid found for element {element.Id}");
+            }
+            else if (transform != null)
+            {
+                TaskDialog.Show("Debug", $"Transforming solid for element {element.Id}");
+            }
+
 
             // Apply coordinate transformation if needed
             if (transform != null)
