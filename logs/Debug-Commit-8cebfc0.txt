@@ -142,5 +142,3 @@ Testar transformação de coordenadas entre:
 Survey Point, 
 Project Base Point, 
 Internal Origin
-
-Verificar logs do commit 8cebfc0

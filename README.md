@@ -93,12 +93,13 @@ Ignorar todos os elementos e interseções fora dessa vista específica
 - [`GetProjectBasePoint` Method](https://www.revitapidocs.com/2022/fa70b69b-0339-15d9-7549-fafdb442f756.htm)
 
 ### BUGS
-Possivelmente os centroides estão sendo criados no meio do vínculo da familia. (Project Base Point)
+
+Os centroides estão sendo criados no meio do vínculo do modelo importado (0,0,0) -> Possivelmente  por causa das diferenças entre as coordenadas do modelo host e dos vinculos.
 
 ![](images/Coord.png)
 ![](images/Coord2.png)
 
-Testar transformação de coordenadas entre:
+Testar transformação de coordenadas (host e vinculos) entre:
 Survey Point, 
 Project Base Point, 
 Internal Origin
