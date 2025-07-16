@@ -114,6 +114,9 @@ HEIGHT_PARAM = "FUR.esp-laje" -> Parametro não esta sendo atribuido corretament
 ![](images/Tubo-Height-Par.png)
 ![](images/Tubo-Furo.png)
 
-#### Video demonstrativo
+#### Video demonstrativo - Versão de testes
 
 [Link para o video](https://www.youtube.com/watch?v=-xXK5Q0dqhM)
+
+Nessa versão plugin ainda apresenta bugs. 
+O filtro da caixa de corte não funcionou corretamente, resultando em furos fora da area delimitada.
