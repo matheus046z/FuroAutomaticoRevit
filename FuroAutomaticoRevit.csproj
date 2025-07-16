@@ -69,9 +69,6 @@
     <Compile Include="4_Core\IntersectionService.cs" />
     <Compile Include="5_Revit\RevitFilterService.cs" />
     <Compile Include="5_Revit\RevitLinkService.cs" />
-    <Compile Include="5_Revit\RevitTransactionService.cs" />
-    <Compile Include="6_Domain\LinkInfo.cs" />
-    <Compile Include="6_Domain\HoleData.cs" />
     <Compile Include="6_Domain\IntersectionData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

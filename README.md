@@ -94,7 +94,9 @@ Ignorar todos os elementos e interseções fora dessa vista específica
 
 ### BUGS
 
-Os centroides estão sendo criados no meio do vínculo do modelo importado (0,0,0) -> Possivelmente  por causa das diferenças entre as coordenadas do modelo host e dos vinculos.
+#### Os centroides estão sendo criados em locais incorretos 
+-> Possivelmente  por causa das diferenças entre as coordenadas do modelo host e dos vinculos.
+Ou talvez pelas cotas de nivel das lajes
 
 ![](images/Coord.png)
 ![](images/Coord2.png)
@@ -105,3 +107,13 @@ Project Base Point,
 Internal Origin
 
 Verificar logs do commit 8cebfc0: [Log](logs/Debug-Commit-8cebfc0.txt)
+
+#### Os furos estão sendo criados sem seguir os parâmetros 
+HEIGHT_PARAM = "FUR.esp-laje" -> Parametro não esta sendo atribuido corretamente na criacao do furo
+
+![](images/Tubo-Height-Par.png)
+![](images/Tubo-Furo.png)
+
+#### Video demonstrativo
+
+![](https://www.youtube.com/watch?v=-xXK5Q0dqhM)

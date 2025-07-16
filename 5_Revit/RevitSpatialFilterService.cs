@@ -24,12 +24,12 @@ namespace FuroAutomaticoRevit.Revit
 
             // Get transform from link to host
             Transform transform = link.GetTotalTransform();
-            TaskDialog.Show("Debug", $"Link transform: Origin={transform.Origin}, " +
-                $"BasisX={transform.BasisX}, BasisY={transform.BasisY}, BasisZ={transform.BasisZ}");
+            //TaskDialog.Show("Debug", $"Link transform: Origin={transform.Origin}, " +
+            //    $"BasisX={transform.BasisX}, BasisY={transform.BasisY}, BasisZ={transform.BasisZ}");
 
             // Get project base point offset
             XYZ basePointOffset = GetProjectBasePointOffset(linkedDoc);
-            TaskDialog.Show("Debug", $"Base point offset: {basePointOffset}");
+            //TaskDialog.Show("Debug", $"Base point offset: {basePointOffset}");
 
 
             // Create filter for the view section box
@@ -54,7 +54,7 @@ namespace FuroAutomaticoRevit.Revit
                 .WhereElementIsNotElementType()
                 .ToList();
             
-            TaskDialog.Show("Debug", $"Found {elements.Count} elements in view after filtering");
+            //TaskDialog.Show("Debug", $"Found {elements.Count} elements in view after filtering");
 
             return elements;
 
@@ -105,7 +105,7 @@ namespace FuroAutomaticoRevit.Revit
                 new XYZ(maxX, maxY, maxZ)
             );
 
-            TaskDialog.Show("Debug", $"Transformed section box: Min={linkOutline.MinimumPoint}, Max={linkOutline.MaximumPoint}");
+            //TaskDialog.Show("Debug", $"Transformed section box: Min={linkOutline.MinimumPoint}, Max={linkOutline.MaximumPoint}");
 
             return new BoundingBoxIntersectsFilter(linkOutline);
         }
@@ -152,31 +152,31 @@ namespace FuroAutomaticoRevit.Revit
         //        return new BoundingBoxIntersectsFilter(linkOutline);
         //    }
 
-        private Outline TransformOutline(Outline outline, Transform transform)
-        {
-            // Transform all 8 corners of the outline
-            var corners = new List<XYZ>
-            {
-                transform.OfPoint(outline.MinimumPoint),
-                transform.OfPoint(new XYZ(outline.MinimumPoint.X, outline.MinimumPoint.Y, outline.MaximumPoint.Z)),
-                transform.OfPoint(new XYZ(outline.MinimumPoint.X, outline.MaximumPoint.Y, outline.MinimumPoint.Z)),
-                transform.OfPoint(new XYZ(outline.MinimumPoint.X, outline.MaximumPoint.Y, outline.MaximumPoint.Z)),
-                transform.OfPoint(new XYZ(outline.MaximumPoint.X, outline.MinimumPoint.Y, outline.MinimumPoint.Z)),
-                transform.OfPoint(new XYZ(outline.MaximumPoint.X, outline.MinimumPoint.Y, outline.MaximumPoint.Z)),
-                transform.OfPoint(new XYZ(outline.MaximumPoint.X, outline.MaximumPoint.Y, outline.MinimumPoint.Z)),
-                transform.OfPoint(outline.MaximumPoint)
-            };
+        //private Outline TransformOutline(Outline outline, Transform transform)
+        //{
+        //    // Transform all 8 corners of the outline
+        //    var corners = new List<XYZ>
+        //    {
+        //        transform.OfPoint(outline.MinimumPoint),
+        //        transform.OfPoint(new XYZ(outline.MinimumPoint.X, outline.MinimumPoint.Y, outline.MaximumPoint.Z)),
+        //        transform.OfPoint(new XYZ(outline.MinimumPoint.X, outline.MaximumPoint.Y, outline.MinimumPoint.Z)),
+        //        transform.OfPoint(new XYZ(outline.MinimumPoint.X, outline.MaximumPoint.Y, outline.MaximumPoint.Z)),
+        //        transform.OfPoint(new XYZ(outline.MaximumPoint.X, outline.MinimumPoint.Y, outline.MinimumPoint.Z)),
+        //        transform.OfPoint(new XYZ(outline.MaximumPoint.X, outline.MinimumPoint.Y, outline.MaximumPoint.Z)),
+        //        transform.OfPoint(new XYZ(outline.MaximumPoint.X, outline.MaximumPoint.Y, outline.MinimumPoint.Z)),
+        //        transform.OfPoint(outline.MaximumPoint)
+        //    };
 
-            // Create new outline that contains all transformed points
-            double minX = corners.Min(p => p.X);
-            double minY = corners.Min(p => p.Y);
-            double minZ = corners.Min(p => p.Z);
-            double maxX = corners.Max(p => p.X);
-            double maxY = corners.Max(p => p.Y);
-            double maxZ = corners.Max(p => p.Z);
+        //    // Create new outline that contains all transformed points
+        //    double minX = corners.Min(p => p.X);
+        //    double minY = corners.Min(p => p.Y);
+        //    double minZ = corners.Min(p => p.Z);
+        //    double maxX = corners.Max(p => p.X);
+        //    double maxY = corners.Max(p => p.Y);
+        //    double maxZ = corners.Max(p => p.Z);
 
-            return new Outline(new XYZ(minX, minY, minZ), new XYZ(maxX, maxY, maxZ));
-        }
+        //    return new Outline(new XYZ(minX, minY, minZ), new XYZ(maxX, maxY, maxZ));
+        //}
 
         private XYZ GetProjectBasePointOffset(Document doc)
         {
@@ -197,7 +197,7 @@ namespace FuroAutomaticoRevit.Revit
             double elevation = basePoint.get_Parameter(BuiltInParameter.BASEPOINT_ELEVATION_PARAM).AsDouble();
 
             var offset = new XYZ(eastWest, northSouth, elevation);
-            TaskDialog.Show("Debug", $"Project base point: {offset}");
+            //TaskDialog.Show("Debug", $"Project base point: {offset}");
             return offset;
         }
     }

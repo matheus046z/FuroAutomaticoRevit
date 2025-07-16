@@ -168,8 +168,8 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                     return;
                 }
 
-                TaskDialog.Show("Debug", $"Target view found: {targetView.Name}");
-                TaskDialog.Show("Debug", $"Section box active: {targetView.IsSectionBoxActive}");
+                //TaskDialog.Show("Debug", $"Target view found: {targetView.Name}");
+                //TaskDialog.Show("Debug", $"Section box active: {targetView.IsSectionBoxActive}");
 
                 // Verify section box is active
                 if (!targetView.IsSectionBoxActive)
@@ -186,7 +186,7 @@ namespace FuroAutomaticoRevit.UI.ViewModels
                     return;
                 }
 
-                TaskDialog.Show("Debug", $"Section box: Min={sectionBox.Min}, Max={sectionBox.Max}");
+                //TaskDialog.Show("Debug", $"Section box: Min={sectionBox.Min}, Max={sectionBox.Max}");
 
 
                 // Get links
@@ -211,23 +211,19 @@ namespace FuroAutomaticoRevit.UI.ViewModels
 
                 // Debug coordinate systems
                 ProjectPosition projectPosition = doc.ActiveProjectLocation.GetProjectPosition(XYZ.Zero);
-                TaskDialog.Show("Debug", $"Host Project Position: " +
-                    $"EastWest={projectPosition.EastWest}, " +
-                    $"NorthSouth={projectPosition.NorthSouth}, " +
-                    $"Elevation={projectPosition.Elevation}");
 
                 if (mepLink != null)
                 {
                     Document linkedDoc = mepLink.GetLinkDocument();
                     ProjectPosition linkedPosition = linkedDoc.ActiveProjectLocation.GetProjectPosition(XYZ.Zero);
-                    TaskDialog.Show("Debug", $"MEP Link Project Position: " +
-                        $"EastWest={linkedPosition.EastWest}, " +
-                        $"NorthSouth={linkedPosition.NorthSouth}, " +
-                        $"Elevation={linkedPosition.Elevation}");
+                    //TaskDialog.Show("Debug", $"MEP Link Project Position: " +
+                    //    $"EastWest={linkedPosition.EastWest}, " +
+                    //    $"NorthSouth={linkedPosition.NorthSouth}, " +
+                    //    $"Elevation={linkedPosition.Elevation}");
                 }
 
 
-                TaskDialog.Show("Debug", $"Creating {intersections.Count} openings");
+                TaskDialog.Show("Debug", $"Criando {intersections.Count} aberturas");
                 new HoleCreationService(doc).CreateOpenings(intersections);
                 TaskDialog.Show("Sucesso", $"Criadas {intersections.Count} aberturas");
             }

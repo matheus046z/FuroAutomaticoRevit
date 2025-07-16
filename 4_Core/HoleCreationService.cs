@@ -14,7 +14,8 @@ namespace FuroAutomaticoRevit.Core
         private readonly Document _doc;
         private const string FAMILY_NAME = "FURO-QUADRADO-LAJE";
         private const string FAMILY_TYPE = "SDR - Furo na laje";
-        private const string HEIGHT_PARAM = "FUR.esp-laje";
+        private const string HEIGHT_PARAM = "FUR.esp-laje"; // BUG - Parametro não esta sendo atribuido
+                                                            // na criacao do furo
         private const string WIDTH_PARAM = "TH-FUR-DIM1";
         private const string LENGTH_PARAM = "TH-FUR-DIM2";
 
