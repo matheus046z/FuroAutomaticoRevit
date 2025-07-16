@@ -65,8 +65,8 @@ Ignorar todos os elementos e interseções fora dessa vista específica
 
 ### Tarefas Pendentes 
 - [ ] Filtro de elementos por vista ("Vista Teste")
-- [ ] Serviço de detecção de interseções
-- [ ] Criação de furos com a família `FURO-QUADRADO-LAJE`
+- [x] Serviço de detecção de interseções
+- [x] Criação de furos com a família `FURO-QUADRADO-LAJE`
 - [ ] Cálculo de dimensões (espessura da laje + 5 cm)
 - [ ] Criação do pacote de instalação
 - [ ] Criaçao de Log automático de erros
