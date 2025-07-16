@@ -153,6 +153,17 @@ namespace FuroAutomaticoRevit.Core
         {
             var elements = spatialFilter.GetElementsInView(link, view, new[] { category });
 
+            // If no elements found, try without spatial filter
+            if (elements.Count == 0)
+            {
+                TaskDialog.Show("Debug", $"No elements found with spatial filter - trying without");
+                Document linkedDoc = link.GetLinkDocument();
+                elements = new FilteredElementCollector(linkedDoc)
+                    .OfCategory(category)
+                    .WhereElementIsNotElementType()
+                    .ToList();
+            }
+
             TaskDialog.Show("Debug", $"Raw elements found for category {category}: {elements.Count}");
 
             var filtered = elements
@@ -165,7 +176,7 @@ namespace FuroAutomaticoRevit.Core
                                   typeParam.Contains(typeName) ||
                                   categoryName.Contains(typeName);
 
-                    if (!matches)
+                    if (!matches && elements.Count < 20) // Only log if few elements
                     {
                         TaskDialog.Show("Debug", $"Element filtered out: " +
                             $"ID={e.Id}, Name={name}, Type={typeParam}, Category={categoryName}");

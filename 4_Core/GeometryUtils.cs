@@ -146,35 +146,41 @@ namespace FuroAutomaticoRevit.Core
 
         public static Outline GetElementBoundingBoxOutline(Element element)
         {
-            BoundingBoxXYZ bbox = element.get_BoundingBox(null);
-            if (bbox != null) return new Outline(bbox.Min, bbox.Max);
-
-            // Fallback for elements without bounding boxes
-            Options options = new Options();
-            GeometryElement geometry = element.get_Geometry(options);
-            if (geometry == null) return null;
-
-            XYZ min = new XYZ(double.MaxValue, double.MaxValue, double.MaxValue);
-            XYZ max = new XYZ(double.MinValue, double.MinValue, double.MinValue);
-
-            foreach (GeometryObject obj in geometry)
+            try
             {
-                if (obj is Solid solid && solid.Volume > 0)
+                BoundingBoxXYZ bbox = element.get_BoundingBox(null);
+                if (bbox != null) return new Outline(bbox.Min, bbox.Max);
+
+                Options options = new Options();
+                GeometryElement geometry = element.get_Geometry(options);
+                if (geometry == null) return null;
+
+                XYZ min = new XYZ(double.MaxValue, double.MaxValue, double.MaxValue);
+                XYZ max = new XYZ(double.MinValue, double.MinValue, double.MinValue);
+
+                foreach (GeometryObject obj in geometry)
                 {
-                    BoundingBoxXYZ solidBox = solid.GetBoundingBox();
-                    min = new XYZ(
-                        Math.Min(min.X, solidBox.Min.X),
-                        Math.Min(min.Y, solidBox.Min.Y),
-                        Math.Min(min.Z, solidBox.Min.Z));
-
-                    max = new XYZ(
-                        Math.Max(max.X, solidBox.Max.X),
-                        Math.Max(max.Y, solidBox.Max.Y),
-                        Math.Max(max.Z, solidBox.Max.Z));
+                    if (obj is Solid solid && solid.Volume > 0)
+                    {
+                        min = new XYZ(
+                            Math.Min(min.X, solid.GetBoundingBox().Min.X),
+                            Math.Min(min.Y, solid.GetBoundingBox().Min.Y),
+                            Math.Min(min.Z, solid.GetBoundingBox().Min.Z)
+                        );
+                        max = new XYZ(
+                            Math.Max(max.X, solid.GetBoundingBox().Max.X),
+                            Math.Max(max.Y, solid.GetBoundingBox().Max.Y),
+                            Math.Max(max.Z, solid.GetBoundingBox().Max.Z)
+                        );
+                    }
                 }
-            }
 
-            return (min.X < max.X) ? new Outline(min, max) : null;
+                return (min.X < max.X) ? new Outline(min, max) : null;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static BoundingBoxXYZ GetElementBoundingBox(Element element)

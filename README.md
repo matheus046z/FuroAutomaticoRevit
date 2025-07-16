@@ -86,6 +86,7 @@ Ignorar todos os elementos e interseções fora dessa vista específica
 - [`Intersect` Method](https://www.revitapidocs.com/2023/570fb842-cac3-83f5-1ab9-621e55186ead.htm)
 - [`CropBox` Property (View)](https://www.revitapidocs.com/2023/d6246051-ecfb-7388-0429-6ed65de72638.htm)
 - [`CropBox` Property (ViewPlan)](https://www.revitapidocs.com/2023/fc35a86f-e7de-599b-f262-77ce06b3d3ff.htm)
+- ['GetSectionBox' Method](https://www.revitapidocs.com/2023/1563dc0f-db89-526d-340b-cdee72e3d254.htm)
 - [`GetCropRegionShapeManager` Method](https://www.revitapidocs.com/2023/e2f53728-9b72-227a-f585-9dccf6d79d9f.htm)
 - [`GetBoundingBox` Method](https://www.revitapidocs.com/2022/32e76eb1-e305-ead5-0b3b-9eb15891c957.htm?section=seeAlsoToggle)
 - [`Intersect` Method (Curve, IntersectionResultArray)](https://www.revitapidocs.com/2023/570fb842-cac3-83f5-1ab9-621e55186ead.htm)

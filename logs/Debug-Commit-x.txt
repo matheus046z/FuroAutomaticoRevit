@@ -1,0 +1,141 @@
+FuroAutomaticoRevit - Debug 
+Target view found: Vista teste
+
+FuroAutomaticoRevit - Debug 
+Section box active: True
+
+FuroAutomaticoRevit - Debug 
+Section box: 
+Min=(-37.309437666, -37.296305524, -3.008084087), 
+Max=(42.751674252, 19.950164981, 4.761368322)
+
+FuroAutomaticoRevit - DEBUG 
+Iniciando metodo Findintersections
+
+FuroAutomaticoRevit - Debug 
+Found target view: Vista teste
+
+FuroAutomaticoRevit - Debug. 
+MEP Transform: (0.000000000, 0.000000000, 0.000000000) 
+Structural Transform: (0.000000000, 0.000000000, 0.000000000)
+
+FuroAutomaticoRevit - Debug 
+Link transform: Origin=(0.000000000, 0000000000, 0.000000000), 
+BasisX=(1.000000000, 0.000000000, 0.000000000), 
+BasisY=(0.000000000, 1.000000000, 0.000000000), 
+BasisZ=(0.000000000, 0.000000000, 1.000000000)
+
+FuroAutomaticoRevit - Debug 
+Project base point: (0.000000000, 0000000000, 0.000000000)
+
+FuroAutomaticoRevit - Debug 
+Transformed section box: 
+Min=(-37.309437666, -37.296305524, -3.008084087), 
+Max=(42.751674252, 19.950164981,4.761368322)
+
+FuroAutomaticoRevit - Debug 
+Found 0 elements in view after filtering
+
+FuroAutomaticoRevit - Debug 
+No elements found with spatial flter - trying without
+
+FuroAutomaticoRevit - Debug 
+Raw elements found for category OST_PipeCurves: 36
+
+FuroAutomaticoRevit - Debug. 
+Found 36 pipes of type Tubo - Esgoto - Série Normal
+
+FuroAutomaticoRevit - Debug. 
+Link transform: Origin=(0.000000000, 0000000000, 0.000000000), 
+BasisX=(1.000000000, 0.000000000, 0.000000000), 
+BasisY=(0.000000000, 1.000000000, 0.000000000), 
+BasisZ=(0.000000000, 0.000000000, 1.000000000)
+
+FuroAutomaticoRevit - Debug 
+Project base point: (0.000000000, 0.000000000, 0.000000000)
+
+FuroAutomaticoRevit - Debug 
+Found 0 elements in view after filtering
+
+FuroAutomaticoRevit - Debug 
+No elements found with spatial flter - trying without
+
+FuroAutomaticoRevit - Debug. 
+Raw elements found for category OST_Conduit: 1
+
+
+FuroAutomaticoRevit - Debug 
+Filtered elements for type Eletroduto em ferro galvanizado: 1
+
+FuroAutomaticoRevit - Debug. 
+Link transform: Origin=(0.000000000, 0000000000, 0.000000000), 
+BasisX=(1.000000000, 0.000000000, 0.000000000), 
+BasisY=(0.000000000, 1.000000000, 0.000000000), 
+BasisZ=(0.000000000, 0.000000000, 1.000000000)
+
+FuroAutomaticoRevit - Debug 
+Project base point: (0.000000000, 0000000000, 0.000000000)
+
+FuroAutomaticoRevit - Debug. 
+Base point offset: (.000000000, 0.000000000, 0.000000000)
+
+
+FuroAutomaticoRevit - Debug 
+Transformed section box: 
+Min=(-37.309437666, -37.296305524, -3.008084087), 
+Max=(42.751674252, 19.950164981,4.761368322)
+
+FuroAutomaticoRevit - Debug 
+Found 0 elements in view after filtering
+
+FuroAutomaticoRevit - Debug 
+No elements found with spatial flter - trying without
+
+
+FuroAutomaticoRevit - Debug 
+Raw elements found for category OST_Floors: 2
+
+
+FuroAutomaticoReit - Debug 
+Raw elements found for category OST_Floors: 2
+
+
+FuroAutomaticoRevit - Debug 
+Filtered elements for type ‘Generic Floor - 400mm’*: 2
+
+FuroAutomaticoRevit - Debug.
+Found 2 slabs of type ‘Generic Floor - 400mm’
+
+
+FuroAutomaticoRevit - Debug
+Total pipes and conduits: 37
+
+
+FuroAutomaticoRevit - Debug
+Transforming solid for element 208221
+
+FuroAutomaticoRevit - Debug 
+Intersection solid volume: 0,249612158803292
+FuroAutomaticoRevit - Debug.
+Found intersection at (0.000000000, 0.000000000, 0.000000000)
+> All elements that intersected are in the same coordinates with same volume
+
+
+FuroAutomaticoRevit - Debug 
+Processed 37 pipes and 74 slabs. Found 27 intersections.
+
+
+FuroAutomaticoRet - Debug 
+Host Project Position: EastWest=0, NorthSouth=0, Elevation=0
+
+FuroAutomaticoRevit - Debug 
+MEP Link Project Position: EastWest=0, NorthSouth=0, Elevation=0
+
+
+FuroAutomaticoRevit - Debug. 
+Creating 27 openings
+> The openings where all in the same place (in the 0,0,0 point ->  project base point)
+
+
+
+
