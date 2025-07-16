@@ -136,6 +136,11 @@ FuroAutomaticoRevit - Debug.
 Creating 27 openings
 > The openings where all in the same place (in the 0,0,0 point ->  project base point)
 
+POSSIVEL BUG:
+Os centroides estão sendo criados no meio do vínculo da familia. (Project Base Point)
+Testar transformação de coordenadas entre:
+Survey Point, 
+Project Base Point, 
+Internal Origin
 
-
-
+Verificar logs do commit 8cebfc0

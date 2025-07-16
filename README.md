@@ -92,3 +92,15 @@ Ignorar todos os elementos e interseções fora dessa vista específica
 - [`Intersect` Method (Curve, IntersectionResultArray)](https://www.revitapidocs.com/2023/570fb842-cac3-83f5-1ab9-621e55186ead.htm)
 - [`GetProjectBasePoint` Method](https://www.revitapidocs.com/2022/fa70b69b-0339-15d9-7549-fafdb442f756.htm)
 
+### BUGS
+Possivelmente os centroides estão sendo criados no meio do vínculo da familia. (Project Base Point)
+
+![](images/Coord.png)
+![](images/Coord2.png)
+
+Testar transformação de coordenadas entre:
+Survey Point, 
+Project Base Point, 
+Internal Origin
+
+Verificar logs do commit 8cebfc0: [Log](logs/Debug-Commit-8cebfc0.txt)
