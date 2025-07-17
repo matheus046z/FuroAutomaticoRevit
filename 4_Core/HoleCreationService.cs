@@ -88,9 +88,10 @@ namespace FuroAutomaticoRevit.Core
         {
             // Altura = laje + 10cm
 
-            instance.LookupParameter(HEIGHT_PARAM)?.Set(data.ElementThickness + 10); // EM CENTIMENTROS? , O modelo de lajes está em pés e o de tubos esta em centimetros.
+            instance.LookupParameter(HEIGHT_PARAM)?.Set(data.ElementThickness + 10.00); // EM CENTIMENTROS? , O modelo de lajes está em pés e o de tubos esta em centimetros.
                                                                                      // Bug - Alterar a espessura após a criaçao da familia
                                                                                      // o centro da familia nao bate com o do centroide da interseçao
+                                                                                     // Talvez 
             // Dimensões da abertura = diametri do tubo * 1.2
             double dimension = data.PipeDiameter * 1.2;
             instance.LookupParameter(WIDTH_PARAM)?.Set(dimension);

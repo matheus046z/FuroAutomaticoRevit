@@ -89,12 +89,6 @@ Internal Origin
 
 Verificar logs do commit 8cebfc0: [Log](logs/Debug-Commit-8cebfc0.txt)
 
-#### Passo a passo que teoricamente o código deveria realizar para filtrar e inserir furos:
-- Obter a 3D view e a section box do documento host
-- Criar um filtro para selecionar os elementos vinculados (linked elements) dentro da section box
-- Verificar as coordenadas dos modelos host e vinculados (Survey Point, Project Base Point ou Internal Origin?)
-- Inserir o tipo "FURO-QUADRADO-LAJE" da família "SDR - Furo na laje" com as dimensões corretas quando uma interseção for encontrada
-
 #### Os furos estão seguindo os parametros mas sendo criados com dimensões erradas
 - Ao alterar a altura do furo após a criaçao da familia, o centro da familia nao bate com o do centroide da interseçao (meio da laje)
 - Ao somar 10cm diretamente no parametro de altura, a familia é inserida com altura de 3 metros
@@ -104,6 +98,13 @@ HEIGHT_PARAM = "FUR.esp-laje" -> Parametro não esta sendo atribuido corretament
 
 ![](images/Tubo-Height-Par.png)
 ![](images/Tubo-Furo.png)
+
+
+#### Passo a passo que o código deveria realizar para filtrar e inserir furos:
+- Obter a 3D view e a section box do documento host
+- Criar um filtro para selecionar os elementos vinculados (linked elements) dentro da section box
+- Verificar as coordenadas dos modelos host e vinculados (Survey Point, Project Base Point ou Internal Origin?)
+- Inserir o tipo "FURO-QUADRADO-LAJE" da família "SDR - Furo na laje" com as dimensões corretas quando uma interseção for encontrada
 
 #### Video demonstrativo - Versão de testes
 
