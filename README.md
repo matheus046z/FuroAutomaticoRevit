@@ -77,6 +77,7 @@ Ignorar todos os elementos e interseções fora dessa vista específica
 #### Os centroides estão sendo criados em locais incorretos 
 -> Possivelmente  por causa das diferenças entre as coordenadas do modelo host e dos vinculos.
 Ou talvez pelas cotas de nivel das lajes
+
 Obs: O modelo de tubos está com unidades de distância em centimetro e o da estrutura está em pés, talvez levar em consideraçao para resolver os bugs
 
 ![](images/Coord.png)
@@ -91,7 +92,7 @@ Verificar logs do commit 8cebfc0: [Log](logs/Debug-Commit-8cebfc0.txt)
 
 #### Os furos estão seguindo os parametros mas sendo criados com dimensões erradas
 - Ao alterar a altura do furo após a criaçao da familia, o centro da familia nao bate com o do centroide da interseçao (meio da laje)
-- Ao somar 10cm diretamente no parametro de altura, a familia é inserida com altura de 3 metros
+- Ao somar 10 diretamente no parametro de altura, a familia é inserida com altura de 3 metros (10 pes = 3metros)
 
 HEIGHT_PARAM = "FUR.esp-laje" -> Parametro não esta sendo atribuido corretamente na criacao do furo
 
