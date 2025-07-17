@@ -49,7 +49,7 @@ namespace FuroAutomaticoRevit.Core
             var spatialFilter = new RevitSpatialFilterService(_doc);
 
             // Get transforms
-            Transform mepTransform = mepLink.GetTotalTransform();
+            Transform mepTransform = mepLink.GetTotalTransform(); // Retorna norte verdadeiro transform
             Transform structuralTransform = structuralLink.GetTotalTransform();
 
             // Debug: Transforms

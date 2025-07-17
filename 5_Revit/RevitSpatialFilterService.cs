@@ -71,10 +71,10 @@ namespace FuroAutomaticoRevit.Revit
             BoundingBoxXYZ sectionBox = view.GetSectionBox();
             if (sectionBox == null) return null;
 
-            // Get transform from host to link
+            // Transform do aqrquivo host para o vinculo
             Transform inverseTransform = linkTransform.Inverse;
 
-            // Transform all corners of the section box
+            // Transform nos cantos da section box
             XYZ[] corners = new[]
             {
                 sectionBox.Min,
@@ -87,9 +87,9 @@ namespace FuroAutomaticoRevit.Revit
                 sectionBox.Max
             };
 
-            // Transform corners to link's coordinate system
+            // Transform os cantos da section box para o sistema de coord do vinculo
             XYZ[] transformedCorners = corners
-                .Select(corner => inverseTransform.OfPoint(corner - basePointOffset))
+                .Select(corner => inverseTransform.OfPoint(corner) - basePointOffset)
                 .ToArray();
 
             // Create bounding box in link's coordinates
