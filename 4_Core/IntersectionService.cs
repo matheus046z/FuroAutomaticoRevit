@@ -5,6 +5,7 @@ using FuroAutomaticoRevit.Revit;
 using FuroAutomaticoRevit.UI.Views;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Markup;
 
 namespace FuroAutomaticoRevit.Core
 {
@@ -333,13 +334,25 @@ namespace FuroAutomaticoRevit.Core
             Parameter param = pipe.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM) ??
                               pipe.get_Parameter(BuiltInParameter.RBS_CONDUIT_DIAMETER_PARAM);
 
-            return param?.AsDouble() ?? 0.1; // "??" se nao for encontrado, assume 10cm
+            return param?.AsDouble() ?? 0.328084; // "??" se nao for encontrado, assume 10cm em pés
         }
 
         private double GetSlabThickness(Element slab)
         {
+                     
             return slab.get_Parameter(BuiltInParameter.STRUCTURAL_FLOOR_CORE_THICKNESS)
-                ?.AsDouble() ?? 0.4; // "??" se nao for encontrado, assume 40cm
+                ?.AsDouble() ?? 1.31234; // "??" se nao for encontrado, assume 40cm em pés
+
+            // Adicionar a checagem de outros parâmetros de espessura de laje e piso
+            // FLOOR_ATTR_THICKNESS_PARAM
+            // Usar UnitUtils.ConvertToInternalUnits para converter para metros ?
+            
+            // Converter todas as unidades para as unidades do modelo host ?
+            //UnitUtils.Convert(
+            //data.ElementThickness + 0.10,
+            //UnitTypeId.Meters,
+            //_doc.GetUnits().GetFormatOptions(SpecTypeId.Length).GetUnitTypeId()
+
         }
     }
 }
